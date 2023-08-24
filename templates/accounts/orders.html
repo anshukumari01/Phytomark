@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<title>Orders</title>
+<link rel="stylesheet" href="{% static 'styles/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'styles/orders.css' %}">
+
+
+{% endblock %}
+
+
+{% block body %}
+
+<div class=" container">
+  <div class=" container-dashboard  px-5 py-5 mx-auto">
+    <div class="container-fluid ">
+  
+      <div class=" content">
+      <div class="row">
+        <div class=" col-12 col-lg-3 p-0 mb-5">
+          {% include 'include/sidebar.html' %}
+        </div>
+        <div class=" col-12 col-lg-9 ps-lg-5 px-0">
+
+          
+          <div class="row row-cols-1 profile-header ps-md-4">
+            <div class="row-cols-1">
+
+              {% if orders %}
+              {% for order in orders %}
+
+              {% if order_products %}
+                <p class="text-muted small ps-0 mb-2">Order ID : {{ order.order_id}}</p>
+                <div class="border mb-4">
+                  <a href="{% url 'user-order-details' order.order_id %}">
+                    <div class="d-flex justify-content-center px-4 py-4 main-order-box">
+                      <div class="col-6 px-0 my-auto">
+                        <div class="d-flex justify-content-start">
+                          <div class="my-auto ">
+                            <span class="h6 mob-text">{{ order.status }}</span>
+                            {% for order_detail in order_details %}
+                            {% if order == order_detail.order and order.status == order_detail.order_status  %}
+                            on {{ order_detail.date | date }}
+                            {% endif %}
+                            {% endfor %}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-3 px-0 my-auto">
+                        <div class="d-flex justify-content-start">
+                          <div class="my-auto ">
+                            <span class="h6 pt-1">₹ {{ order.order_total }}0</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="my-auto col-3 ">
+                        <div class="row ">
+                          <div class="col-12 px-0 text-end align-self-center">
+                            <iconify-icon icon="ep:arrow-right" width="24"></iconify-icon>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                  {% for order_product in order_products %}
+                  {% if order_product.order.id == order.id %}
+                  <div class="d-flex justify-content-center border-top px-4">
+                    <div class="col-12 px-0">
+                      <div class="d-flex justify-content-start">
+                        <div class="chm">
+                          <a href="#">
+                            <img src="{{ order_product.product.image.url }}"  alt="{{ order_product.product.name }} cover image" class="chm-img">
+                          </a>
+                        </div>
+                        <div class="my-auto flex-column d-flex">
+                          <a href="{{ order_product.product.get_url }}">
+                            <h6 class="mb-0 ">{{ order_product.product.name }}</h6>
+                          </a>
+                          <p class="pt-2"><small>{{ order_product.quantity }}</small></p>
+                          <h6 class=" pt-1">₹ {{ order_product.total }}</h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              {% endif %}
+              {% endfor %}
+
+              <!-- paginator -->
+              <nav aria-label="Page navigation example">
+                {% if orders.has_other_pages %}
+                <ul class="pagination justify-content-center">
+                  {% if orders.has_previous %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ orders.previous_page_number}}" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  {% else %}
+                  <li class="page-item disabled">
+                    <a class="page-link" href="#" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  {% endif %}
+              
+                  {% for i in orders.paginator.page_range%}
+                  {% if orders.number == i %}
+                  <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+                  {% else %}
+                  <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                  {% endif %}
+                  {% endfor %}
+              
+                  {% if orders.has_next %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ orders.next_page_number}}" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                  {% else %}
+                  <li class="page-item disabled">
+                    <a class="page-link" href="#" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                  {% endif %}
+                </ul>
+                {% endif %}
+              </nav>
+
+              {% else %}
+                <div class="text-center my-5 py-5">
+                  <div class="pt-5">YOU HAVE NO ORDERS!</div>
+                  <a href="{% url 'products' %}" class=" btn mt-4 px-3 py-2">CONTINUE SHOPPING</a>
+                </div>
+              {% endif %}
+
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+</div>
+
+
+
+{% endblock %}
+
+
+{% block script %}
+
+
+{% endblock %}

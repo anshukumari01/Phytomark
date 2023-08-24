@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<title>About</title>
+
+
+{% endblock head %}
+
+{% block body %}
+<div class="margin" style="height: 100px;"> </div>
+<div class="container">
+    <div class="carousel-inner  mb-4 rounded ">
+        <img src="{{farming.image.url}}" class="d-block w-100" height="300" alt="...">
+    </div>
+
+  <div class="about pt-3 ">
+    <div class="row g-0 mb-4 ">
+      <h4 class="text-center text-uppercase title-featured">
+        {{farming.name}}
+      </h4>
+    </div>
+
+    <div class="row g-0  d-flex justify-content-center   mx-md-5  ">
+      <div class="main-content col-lg-9 align-self-center quote-section">
+        <div class="main-content__subtitle text-center" style="white-space: pre-wrap;">
+          {{farming.description}}
+        </div>
+      </div> 
+    </div>
+  </div>
+</div>
+{% endblock body %}

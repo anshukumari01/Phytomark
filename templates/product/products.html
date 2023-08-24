@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<title>Product</title>
+<link rel="stylesheet" href="{% static 'styles/productPage.css' %}">
+{% endblock head %}
+
+{% block body %}
+<div class="margin" style="height: 100px;"> </div>
+<div class="container">
+    <div class= "row srow p-4 p-md-5 mb-4 rounded text-body-emphasis">
+        <h4 class=" mb-4 d-flex justify-content-center">Search For Product:</h2>
+        <form action="{% url 'search' %}" name="search_form">
+            <div class=" mb-5 d-flex justify-content-center">
+              <input type="search" class="btn btn-invert py-3 w-50 text-start border-search-input"
+              placeholder="Search Using Chemical Name, or CAS no." name="keyword" autofocus="autofocus" id="search" >
+              <button type="submit" name='search submit button' class="btn btn-invert py-3 px-4 border-search" id="search-btn">
+                  <iconify-icon icon="bytesize:search"></iconify-icon>
+              </button>
+            </div>
+          </form>  
+    </div>
+
+{% if not product_count %}
+<div class=" empty-search text-center d-flex flex-column justify-content-center">
+  <h5 class=" fw-normal">NO ITEM FOUND FOR KEYWORD " {{ keyword }} "</h5>
+  <p class="text-muted">Try again</p>
+</div>
+
+{% else %}
+
+<div class = "row justify-content-center" >
+  <div class="col-md-10 rtable">
+    {% if 'search' in request.path %}
+            <div class="col-12 text-center m-5 ">
+              <h5 class="search-heading fw-normal">Search Result</h5>
+              <p class="text-muted">{{ product_count }} items found for keyword '{{ keyword }}'</p>
+            </div>
+    {% else %}
+    <div class="col-12 text-center m-5 ">
+      <h5 class="search-heading fw-normal">Search Result For  "All Product"</h5>
+      <p class="text-muted">{{ product_count }} items found</p>
+    </div>
+    {% endif %}
+      <ul class="responsive-table">
+        <li class="table-header">
+          <div class="col col-1">Product Name</div>
+          <div class="col col-2">Mol. Formula</div>
+          <div class="col col-3">CAS No.</div>
+          <div class="col col-4">Pack Size</div>
+          <div class="col col-5">Price</div>
+          <div class="col col-6">DETAILS</div>
+        </li>
+        {% for product in products %}
+        <li class="table-row">
+          <div class="col col-1"><a href="{{product.get_url}}">{{ product.name }}</a></div>
+          <div class="col col-2">{{ product.mol_formula }}</div>
+          <div class="col col-3">{{ product.cas_number }}</div>
+          <div class="col col-4">{{ product.pack_size }}</div>
+          <div class="col col-5">₹ {{ product.price }}</div>
+          <div class="col col-6"><p class="lead mb-0 "><a href="{{product.get_url}}"><button class="btn btn-invert py-2 ">View Details</button></a></p></div>
+        </li>
+        {% endfor %}
+      </ul>
+        
+  </div>
+</div>
+
+<!-- paginator -->
+{% if 'search' in request.path %}
+<nav aria-label="Page navigation example">
+  {% if products.has_other_pages %}
+  <ul class="paginatin justify-content-center">
+    {% if products.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?keyword={{keyword}}&page={{ products.previous_page_number}}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {% endif %}
+
+
+    {% for i in products.paginator.page_range%}
+        
+    {% if products.number == i %}
+    <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+    {% else %}
+    <li class="page-item"><a class="page-link" href="?keyword={{keyword}}&page={{i}}">{{i}}</a></li>
+    {% endif %}
+    {% endfor %}
+
+
+    {% if products.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?keyword={{keyword}}&page={{ products.next_page_number}}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+  {% endif %}
+</nav>
+
+{% else %}
+
+<nav aria-label="Page navigation example">
+  {% if products.has_other_pages %}
+  <ul class="paginatin justify-content-center">
+    {% if products.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ products.previous_page_number}}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {% endif %}
+    
+
+    {% for i in products.paginator.page_range%}
+    {% if products.number == i %}
+    <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+    {% else %}
+    <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+    {% endif %}
+    {% endfor %}
+
+    {% if products.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ products.next_page_number}}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+  {% endif %}
+</nav>
+
+{% endif %}
+
+
+{% endif %}
+
+</div>
+
+{% endblock %}
+
+{% block script %}
+
+<script>
+  
+  let button = document.getElementById("search-btn")
+  let input = document.getElementById("search")
+
+  input.addEventListener("input", function (e) {
+    if (input.value.length == 0) {
+      button.disabled = true
+    } else {
+      button.disabled = false
+    }
+  })
+</script>
+
+{% endblock %}
+

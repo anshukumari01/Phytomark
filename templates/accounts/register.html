@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>Register</title>
+    <link href="{% static 'styles/register.css' %}" rel="stylesheet">
+    
+    
+{% endblock  %}
+
+
+{% block body %}
+<div class="margin" style="height: 50px;">
+
+</div>
+<div class="containers">
+<div class="dabba">
+  {% include 'include/alerts.html' %}
+  <div class="row">
+    <div class="title col-md-2">SIGN UP</div>
+    <div class="inactive col-md-2"><a href="{% url 'login' %}">SIGN IN</a></div>
+  </div>
+    <div class="content">
+      <form action="{% url 'register' %}" method="POST">
+        {% csrf_token %}
+
+        <div class="user-details">
+          <div class="input-box">
+            {{ form.first_name }}
+          </div>
+          <div class="input-box">
+            {{ form.last_name }}
+          </div>
+          <div class="input-box">
+            {{ form.email }}
+          </div>
+          <div class="input-box">
+            {{ form.phone_number }}
+          </div>
+          <div class="input-box">
+            {{ form.company }}
+          </div>
+          <div class="input-box">
+            {{ form.country }}
+          </div>
+          <div class="input-box">
+            {{ form.password }}
+          </div>
+          <div class="input-box">
+            {{ form.confirm_password }}
+          </div>
+        </div>
+        {{form.non_field_errors}}
+        <div class="button form-group">
+          <input type="submit" value="Register">
+        </div>
+      {{form.email.errors}}
+      </form>
+      <p class="text-center ">By continuing, I agree to the Terms of Use & Privacy Policy</p>
+      <p class="text-center ">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+  
+    </div>
+  </div>
+</div>
+
+
+
+
+{% endblock %}

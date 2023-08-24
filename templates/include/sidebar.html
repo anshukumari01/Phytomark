@@ -1,0 +1,46 @@
+{% load static %}
+
+<div class="d-flex flex-column flex-shrink-0  sidebar" >
+    <div class=" mb-3  text-decoration-none">
+          <header class="text-center">
+            <h5 class="mt-4 mb-1">
+              {{request.user.first_name}} {{request.user.last_name}}
+            </h5>
+            <p class="small mb-4 pb-2">{{ request.user.email }}</p>
+        
+          </header>
+    </div>
+    
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item ">
+        <a href="{% url 'dashboard' %}" class="{% if request.path == '/accounts/dashboard/' %} active {% endif %} nav-link py-3 d-flex align-items-center border-top border-start border-end " aria-current="page">
+          <iconify-icon icon="mdi-light:view-dashboard" width="20" flip="horizontal" class="me-3"></iconify-icon>
+          Overview
+        </a>
+      </li>
+      <li class="nav-item ">
+        <a href="{% url 'user-profile' %}" class="{% if 'profile' in request.path %} active {% endif %} nav-link py-3 d-flex align-items-center border-top border-start border-end">
+            <iconify-icon icon="system-uicons:user-male-circle" width="20" flip="horizontal"class="me-3"></iconify-icon>
+          Profile
+        </a>
+      </li>
+      <li class="nav-item ">
+        <a href="{% url 'user-orders' %}" class="{% if 'orders' in request.path %} active {% endif %} nav-link py-3 d-flex align-items-center border-top border-start border-end"> 
+          <iconify-icon icon="ph:package-light" width="20" class="me-3"></iconify-icon>
+          Orders
+        </a>
+      </li>
+      <li class="nav-item ">
+        <a href="{% url 'user-address' %}" class="{% if 'address' in request.path %} active {% endif %} nav-link py-3 d-flex align-items-center border-top border-start border-end">
+            <iconify-icon icon="ep:map-location" width="20"  class="me-3"></iconify-icon>
+          Addresses
+        </a>
+      </li>
+      <li class="nav-item ">
+        <a href="{% url 'logout' %}"  class="nav-link py-3 d-flex align-items-center border-top border-start border-end border-bottom">
+          <iconify-icon icon="clarity:logout-line" width="20" flip="horizontal" class="me-3"></iconify-icon>
+          Logout
+        </a>
+      </li>
+    </ul>
+</div>

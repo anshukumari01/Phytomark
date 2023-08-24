@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+    
+
+{% block head %}
+<title>Contact</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+<link rel="stylesheet" href="{% static 'styles/contact.css' %}"/>
+{% endblock head %}
+{% block body %}
+<div class="margin" style="height: 50px;"></div>
+<div class="container whole">
+  <div class = "row">
+    <div id="pic"> </div>
+  </div>
+<div class="containers">
+  {% include 'include/alerts.html' %}
+  <div class="content">
+    <div class="left-side">
+      <div class="address details">
+        <i class="fas fa-map-marker-alt"></i>
+        <div class="topic">Address</div>
+        <div class="text-one">{{info.address1}}</div>
+        <div class="text-two">{{info.address2}}</div>
+      </div>
+      <div class="phone details">
+        <i class="fas fa-phone-alt"></i>
+        <div class="topic">Phone</div>
+        <div class="text-one">{{info.phone_no}}</div>
+      </div>
+      <div class="email details">
+        <i class="fas fa-envelope"></i>
+        <div class="topic">Email</div>
+        <div class="text-one"><a href="mailto:{{info.email}}">{{info.email}}</a></div>
+      </div>
+    </div>
+    <div class="right-side">
+      <div class="topic-text">CONTACT US</div>
+    <form action="{% url 'contact' %}" method="POST">
+      {% csrf_token %}
+      <div class="input-box">
+        {{form.name}}
+      </div>
+      <div class="input-box">
+        {{form.email}}
+      </div>
+      <div class="input-box">
+        {{form.subject}}
+      </div>
+      <div class="input-box message-box">
+        {{form.message}}
+      </div>
+      <div class="button">
+        <input type="submit" value="Send Now" >
+      </div>
+    </form>
+  </div>
+  </div>
+</div>
+</div>
+{% endblock body %}
+

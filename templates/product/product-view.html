@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<title>Products</title>
+<link rel="stylesheet" href="{% static 'styles/product.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+  integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<script src="https://kit.fontawesome.com/636cd13699.js" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"></script>
+
+{% endblock head %}
+
+
+{% block body %}
+
+<div class="margin" style="height: 80px;"> </div>
+<div class="container"> 
+      <div class=" content mt-5 mb-5">
+        <div class="card">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <div class="d-flex flex-column justify-content-bottom">
+                <div class="main_image ">
+                  <img src="{{ product.image.url }}" class="drift-demo-trigger" alt="{{product.name}}"
+                    data-zoom="{{ product.image.url }}" id="main_product_image" height="280" width="250">
+      
+                </div>
+                <div> 
+                    <p style="font-size: 14px; color: #476ba0;">All Products are stable to be shipped at room temperature, unless otherwise specified.</p>
+                    
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8 ">
+                <div class="detail p-3 right-side d-flex flex-column justify-content-between h-100 pt-4" id="detail">
+                  <div class="content-top d-flex flex-column justify-content-start h-100">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <h3 style="color: #37598b; margin_bottom: 3px;">{{ product.name }}</h3>
+                    </div>
+                    <h6 style="color: #37598b">CAT No.:- {{ product.cat_number }}</h6>
+      
+                    <div class=" details row ">
+                        <div class="col-md-3 ">
+                            <p>CAS no.:      </p>
+                        </div>
+                        <div class="col-md-9 ">
+                            <p>    {{product.cas_number}} </p>
+                        </div>
+                    </div>
+                    <div class=" details row ">
+                        <div class="col-md-3">
+                            <p>Synonyms:          </p>
+                        </div>
+                        <div class="col-md-9">
+                            <p>   {{product.synonyms}} </p>
+                        </div>
+                    </div>
+                    <div class=" details row">
+                        <div class="col-md-3 ">
+                            <p>Mol. Formula:      </p>
+                        </div>
+                        <div class="col-md-9 ">
+                            <p>   {{product.mol_formula}} </p>
+                        </div>
+                    </div>
+                    <div class=" details row ">
+                        <div class="col-md-3">
+                            <p>Mol. Weight:      </p>
+                        </div>
+                        <div class="col-md-9">
+                            <p>  {{product.mol_weight}} </p>
+                        </div>
+                    </div>
+
+                  </div>
+      
+                  <div class="content-bottom d-flex flex-column justify-content-end h-100 ">
+                   {%if request.user.is_authenticated%}
+                    {% if product.stock > 0 %}
+      
+      
+                      {% if product.stock < 10 and product.stock > 0 %}
+                      <p class="text-danger mt-3">
+                        Only {{ product.stock}} Pack Left.
+                      </p>
+                      {% else %}
+                      <p class="text-success mt-3 ">Available</p>
+                      {% endif %}
+                      <h4 class="text-success" style="font-size: 16px; font-Weight: 400">Free Delivery On Order Above {{free_shipping_price}}</h4>
+                      <h4 style="font-size: 14px; font-Weight: 400; color: grey;">Taxes will be removed at payment section for export orders</h4>
+      
+      
+                    {% endif %}
+      
+      
+                      {% if product.stock < 1 %} <p class='text-danger mt-3'>
+                        Out of Stock
+                      </p>
+                      {% endif %}
+      
+                        
+      
+                            
+                        
+                   {% endif %}
+                  </div>
+                  <table id="orderProductTable" class="table table-striped">
+                    <thead>
+                        <tr class="tableEnd">
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Pack Size</th>
+                            <th scope="col">Price (INR)</th>
+                            <th scope="col cartbutton"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{product.name}}</td>
+                            <td>{{product.pack_size}}</td> 
+                            <td><b>₹ </b>{{product.price}}</td>
+                            <td id="cartbutton">
+                                <div class="buttons d-flex flex-row mt-3 gap-3">
+                                    {% if product.stock < 1 or not product.is_available %} 
+                                      <a href="#" class="btn disabled"> <i class= "fas fa-shopping-cart"></i></a>
+                                    {% else %}
+                                      <a href="{% url 'add-to-cart' product.id %}" class="btn"> <i class= "fas fa-shopping-cart"></i></a>
+                                    {% endif %}
+                
+                                      
+                                  </div> 
+                            </td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+          </div>
+        </div>
+        
+        <br>
+        <div class="row description">
+          <div class="col-xl-12  my-5">
+            <div class="nav-align-top mb-4">
+              <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                  <button type="button" name="about tab button" class="nav-link active text-uppercase" role="tab" data-bs-toggle="tab"
+                    data-bs-target="#navs-top-description" aria-controls="navs-top-description" aria-selected="true">
+                    DESCRIPTION
+                  </button>
+                </li>
+                <li class="nav-item">
+                  <button type="button" name="specification tab button" class="nav-link text-uppercase" role="tab" data-bs-toggle="tab"
+                    data-bs-target="#navs-top-details" aria-controls="navs-top-details" aria-selected="false">
+                    PROPERTIES
+                  </button>
+                </li>
+                <li class="nav-item">
+                  <button type="button" name="policy tab button" class="nav-link text-uppercase" role="tab" data-bs-toggle="tab"
+                    data-bs-target="#navs-top-policy" aria-controls="navs-top-policy" aria-selected="false">
+                    SAFETY INFORMATION
+                  </button>
+                </li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane fade show active border-start border-end border-bottom" id="navs-top-description"
+                  role="tabpanel">
+                  <p class="px-3 pb-3 lh-lg" style="white-space: pre-wrap;">
+                    {{ product.description }}
+                  </p>
+                </div>
+                <div class="tab-pane fade border-start border-end border-bottom" id="navs-top-details" role="tabpanel">
+                    <p class="px-3 pt-3 lh-lg">All Products are stable to be shipped at room temperature, unless otherwise specified.</p>
+                  <ul class="list-unstyled specification-list px-2 pb-2 pt-4">
+                    <li>
+                      <b>Asay : </b>{{ product.assay }} 
+                    </li>
+                    <li >
+                      <b>Form : </b>{{ product.form }} 
+                    </li>
+                    <li>
+                      <b>Manufacturer : <b>{{ product.rmanufacturer }} 
+                    </li>
+                    <li >
+                      <b>SMILES string : </b>{{ product.smiles_string }} 
+                    </li> 
+                  </ul>
+                </div>
+                <div class="tab-pane fade border-start border-end border-bottom pb-3" id="navs-top-policy" role="tabpanel">
+                  <p class="px-3 pt-3 lh-lg">{{product.safety}}  </p>
+                    <ul class="list-unstyled specification-list px-2 pb-2 pt-4">
+                      <li ><b>GHS Pictogram</b> : {{ product.GHSpictogram }} </li>
+                      <li><b>Hazard Warnings</b> : {{ product.HazardWarnings }} </li>
+                      <li ><b>Secutity Instructions</b> : {{ product.SecutityInstructions }}</li>
+                    </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      
+</div>
+{% endblock body %}

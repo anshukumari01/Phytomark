@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+    <title>Cart</title>
+    <link rel="stylesheet" href="{% static 'styles/cart.css' %}">
+    
+
+{% endblock %}
+
+
+{% block body %}
+<div class="container">
+  {% include 'include/alerts.html' %}
+{% if cart_items %}
+<div class=" container-cart px-5 py-5 mx-auto">
+  <div class="row d-flex justify-content-center">
+      <div class="col-12 text-center mb-5">
+          <h4 class="heading fw-normal">SHOPPING CART</h4>
+      </div>
+      <div class="col-12">
+          <div class="row ">
+              <div class="col-5 px-5 ">
+                  <h6 class="mt-2 fw-normal">PRODUCT</h6>
+              </div>
+              <div class="col-4 text-center">
+                  <h6 class="mt-2 fw-normal">QUANTITY</h6>
+              </div>
+              <div class="col-3 px-5 text-end">
+                  <h6 class="mt-2 fw-normal">TOTAL</h6>
+              </div>
+          </div>
+      </div>
+  </div>
+  {% if cart_items %}
+  {% for cart_item in cart_items %}
+  <div class="row d-flex justify-content-center border-top">
+    <div class="col-5 px-0">
+        <div class="d-flex justify-content-start">
+            <div class="chm">
+              <a href="{{ cart_item.product.get_url }}"> 
+                {% if cart_item.quantity > cart_item.product.stock %}
+                <img src="{{ cart_item.product.image.url }}" alt="" class="chm-img" style="opacity: .5;">
+                {% else %}
+                <img src="{{ cart_item.product.image.url }}" alt="" class="chm-img">
+                {% endif %}
+              </a>
+            </div>
+            <div class="my-auto flex-column d-flex" style="margin-left: 10px;">
+                <a href="{{ cart_item.product.get_url }}">
+                  <h6 class="mb-5 ">{{ cart_item.product.name }}</h6>
+                </a>
+                
+                
+                <div class="pt-1">
+                  <span class="h6">₹ {{cart_item.product.price}} </span>
+                </div>
+                
+                {% if cart_item.quantity > cart_item.product.stock %}
+                  <div class="h6 text-danger  py-1  ">Out of Stock</div>
+                {% endif %}
+                
+            </div>
+        </div>
+    </div>
+    <div class="my-auto col-7 ">
+        <div class="row ">
+            <div class="col-7 d-flex justify-content-center ">
+              <div class="d-flex flex-column">
+
+
+                <div class=" col-12 btn-invert quantity-box py-2 d-flex justify-content-between align-self-center">
+                 <div class="input-group input-spinner">
+                  <div class="input-group-prepend">
+                    <a href="{% url 'remove-from-cart' cart_item.product.id cart_item.id %}" id="button-plus" type="button"  class=" py-2 px-3"><i class="fa fa-minus"></i> </a>
+                    
+                  </div>
+                    <input type="text" class="form-control quant p-2" value="{{cart_item.quantity }}">
+                  <div class="input-group-append">
+                    <a href="{% url 'add-to-cart' cart_item.product.id %}" type="button"   class="addToCartButton quantity-button py-2 px-3" id="button-minus"><i class="fa fa-plus"></i> </a>
+                  </div> 
+                 </div>
+                </div>
+                
+                <div class=" col-12 py-3 text-center">
+                  <a type="button" class=" remove-btn" data-bs-toggle="modal" data-bs-target="#cart-item-remove-confirmation-10-paperback">
+                    REMOVE
+                  </a>
+                  
+                  <div class="modal fade" id="cart-item-remove-confirmation-10-paperback" tabindex="-1" role="dialog" aria-labelledby="CartItemRemoveConfirmationLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header d-flex align-self-center ">
+                        <h5 class="modal-title"><b class="fw-normal ">Are you sure?</b></h5>
+                        </div>
+                        <div class="modal-body text-canter">
+                            Are you sure you want to Remove <b>{{ cart_item.product.name }}</b>
+                              
+                            from your cart?
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-invert" name="modal dismiss button" data-bs-dismiss="modal">Close</button>
+                        <a href="{% url 'remove-cart-item' cart_item.product.id cart_item.id %}"><button type="button" class="btn">Confirm</button></a>
+                        </div>
+                    </div>
+                    </div>
+                  </div>
+                  
+                </div>
+                
+              </div>
+            </div>
+            <div class="col-5 px-3 text-end align-self-center">
+              
+              <h6 class="mob-text" style="font-size: 15px;">₹ {{cart_item.sub_total}}.00</h6>
+            </div>
+        </div>
+    </div>
+ </div>
+ {% endfor %}
+ {% endif %}
+
+ <div class="row d-flex justify-content-center border-top">
+  <div class="my-auto col-12 ">
+      <div class="row mt-4">
+
+          <div class=" px-0 align-self-center">
+            <div class = "row">
+             <div class = "col-md-9"></div>
+             <div class="total col-md-3">
+              <h6 class=" text-end " style="font-size: 14px;">TOTAL :&nbsp;&nbsp; ₹ <span id="subTotal">{{total}}</span></h6>
+              <h6 class="fw-normal text-end "><small>TAX : {{tax}}</small></h6>
+              {% if shipping_cost %}
+              <h6 class="fw-normal text-end "><small>SHIPPING COST : {{shipping_cost}}</small></h6>
+              {% else %}
+              <p class="text-success text-end">FREE DELIVERY</p>
+              {% endif %}
+              
+             </div>
+             </div>
+
+             <h6 class=" text-end " style="font-size: 15px;">GRAND TOTAL :&nbsp;&nbsp; ₹ <span id="subTotal">{{grand_total}}</span></h6>
+              <div class=" d-flex justify-content-between">
+                <a href="{% url 'products' %}" class=" btn btn-invert py-2 my-2">CONTINUE SHOPPING</a>
+                {% comment %} {% for enquiry in enquery %}
+                {% if enquiry.user == request.user %}
+                {% if enquiry.is_confirmed %} {% endcomment %}
+                  {% if out_of_stock_item  %}
+                    <button class=" btn px-5 py-2 my-2 disabled" name="checkout button" style="background-color: #858585;">CHECKOUT</button>
+                  {% else %}
+                    <a href="{% url 'checkout' %}" class=" btn px-5 py-2 my-2  ">CHECKOUT</a>
+                  {% endif %}
+                {% comment %} {% else %}
+                  <form action=" {% url 'enquery' %}" method="POST">
+                    {% csrf_token %}    
+                    {% if forloop.last %}  
+                    <a href="">
+                      <button type="submit" class=" btn px-5 py-2 my-2  ">ENQUERY</button>
+                    </a>
+                    {% endif %}
+                  </form>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+               {% endcomment %}
+
+                
+
+                
+
+              </div>
+                
+
+          </div>
+      </div>
+  </div>
+</div>
+
+</div>
+{% else %}
+  <div class="text-center empty-cart">
+    <div>YOUR CART IS EMPTY !</div>
+    <a href="{% url 'products' %}" class=" btn mt-4 px-5 py-3">CONTINUE SHOPPING</a>
+  </div>
+{% endif %}
+</div>
+
+{% endblock %}
+
+
+{% block script %}
+
+<script src="/static/js/cart.js"></script>
+
+
+
+{% endblock %}

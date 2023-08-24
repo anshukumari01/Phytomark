@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<title>Services</title>
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'styles/services.css' %}">
+{% endblock head %}
+{% block body %}
+
+<div class="margin" style="height: 150px;"></div>
+<div class="container">
+							 
+        <div class="row">
+            {% for service in service %}
+            <div class="service col-lg-6 col-md-6 col-sm-6">
+                <h4 class="title ">
+                   {{service.name}}
+                </h4>
+                <div class="image  d-flex justify-content-center">
+                    <span class="placeholder-text"></span>
+                    <img src="{{service.image.url}}" class="icon-service" width="45%">
+                </div>
+                <div class="content ">
+                    {{service.description}}
+                            
+                </div>
+            </div>
+            {% endfor %}
+            
+        </div>
+         
+    
+</div>
+
+{% endblock body %}

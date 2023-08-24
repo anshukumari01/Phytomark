@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>Register</title>
+    <link href="{% static 'styles/login.css' %}" rel="stylesheet">
+    
+    
+{% endblock  %}
+
+
+{% block body %}
+
+{% if request.GET.command == 'verification' %}
+
+    <div class="email-veriy-msg container text-center w-50 vh-100 ">
+      <p><span class="ch2">Thank you for registering!</span> <br> <br> <br> </p>
+      <br>
+      <p>We are reviewing your details. Please wait for updates.</p>
+      <br><br>
+      <p>Already verified! Take me to the<a href="{% url 'login' %}"> login </a>page</p>
+      <br>
+    </div> 
+
+{% else %}
+
+<div class="margin" style="height: 50px;">
+
+</div>
+<div class="containers">
+<div class="dabba">
+  {% include 'include/alerts.html' %}
+  <div class="row">
+    <div class="inactive col-md-2"><a href="{% url 'register' %}">SIGN UP</a></div>
+    <div class="title col-md-2">SIGN IN</div>
+  </div>
+    <div class="content">
+      <form action="{% url 'login' %}" method="POST">
+        {% csrf_token %} 
+        <div class="user-details">
+          <div class="input-box">
+            <input type="email" placeholder="Enter your email" name="email" required>
+          </div>
+          <div class="input-box">
+            <input type="password" placeholder="Enter your password" name="password" required>
+          </div>
+        </div>
+        <div class="button">
+          <input type="submit" value="SIGN IN">
+        </div>
+      </form>
+      
+    </div>
+
+    <p class="text-center ">Are you new here? Welcome!  <a href="{% url 'register' %}">Create an account</a></p>
+    <p class="text-center ">Forgot your password? <a href="{% url 'forgot-password' %}"> click here</a></p>
+{% endif %}
+  </div>
+</div>
+
+
+
+
+{% endblock %}
