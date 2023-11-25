@@ -73,6 +73,7 @@ Apply migrations and create your database
 python manage.py makemigrations
 ```
 
+```
 python manage.py migrate
 ```
 Create a user with manage.py
