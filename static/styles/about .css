@@ -1,0 +1,28 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,500,300,700);
+
+* {
+  font-family: Open Sans;
+}
+.btn{
+    border-color: rgba(0, 0, 0, 0.677);
+  }
+.sepr{
+    background-image: linear-gradient(rgb(242, 246, 243), rgba(225, 236, 229, 0.437)),url(/static/images/seperation.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.sepr .row{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding : 5px;
+}
+
+.sep{
+  font-size:500;
+  padding : 80px;
+}
+.title{
+  justify-content: center;
+  margin-top: 110px;
+}

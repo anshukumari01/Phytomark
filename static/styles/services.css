@@ -1,0 +1,21 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,500,300,700);
+
+*{
+    font-family: Open Sans;
+}      
+.title{
+    text-transform: uppercase;
+    padding-left: 10px;
+    color: rgb(0, 153, 255);
+}
+.service{
+    padding: 30px;
+}
+.image{
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+.content{
+    padding-left: 10px;
+    padding-right: 10px;
+}

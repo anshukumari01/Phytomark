@@ -1,0 +1,78 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,500,300,700);
+
+* {
+  font-family: Open Sans;
+}
+
+
+.container-dashboard {
+  padding-top: 11rem !important;
+}
+
+.nav-pills .nav-link {
+  color: black !important;
+  border-radius: 0;
+}
+.nav-pills .nav-link.active {
+  border-radius: 0;
+  background-color: #d9d9d9 !important;
+}
+
+.nav-pills .nav-link:hover {
+  background-color:#efefef !important;
+}
+
+.sidebar{
+  background-color: #b3b3b3;
+}
+.content .nav-link {
+  background-color: white !important;
+}
+.card-container .card:hover {
+  background-color:#efefef !important;
+}
+.card-container {
+  padding-top: 90px;
+}
+
+.card a {
+  color: inherit;
+  text-decoration: none !important;
+}
+
+.profile-details {
+  padding-left: 20%;
+  padding-right: 20%;
+}
+
+.form-control{
+  border-radius: 0;
+}
+
+.btn{
+  border-width: 0.5px;
+  border-color: rgb(180, 180, 180);
+  border-radius: 0;
+}
+.save .btn{
+  background-color: #a9a9a9;
+}
+.save .btn:hover:hover{
+  background-color: #a9a9a9;
+}
+
+@media screen and (max-width: 768px) {
+  .card-container {
+    padding-top: 0px;
+  }
+  .profile-details {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+  
+  .container {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+  
+}

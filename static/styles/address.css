@@ -1,0 +1,20 @@
+.plus-button{
+    margin-left: -5px !important;
+  }
+  
+  .new-box {
+    border-color: #b9b9b9 !important
+  }
+  
+  .new-box:hover {
+    background: #ebebeb;
+    cursor: pointer;
+  }
+  
+  .new-address {
+    width: 100%;
+  }
+  
+  .save {
+    background-color: #a9a9a9;
+  }
