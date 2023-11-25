@@ -70,7 +70,8 @@ RAZORPAY_KEY_ID= <your_razorpay_key_id>
 
 Apply migrations and create your database
 ```
-python manage.py makemigration
+python manage.py makemigrations
+```
 
 python manage.py migrate
 ```
